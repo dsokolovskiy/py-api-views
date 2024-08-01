@@ -1,5 +1,10 @@
 from rest_framework.response import Response
-from rest_framework import status, generics, mixins, viewsets
+from rest_framework import (
+    status,
+    generics,
+    mixins,
+    viewsets
+)
 from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
@@ -29,8 +34,7 @@ class GenreList(APIView):
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @staticmethod
-    def post(request) -> Response:
+    def post(self, request) -> Response:
         serializer = GenreSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -38,8 +42,7 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    @staticmethod
-    def get_object(pk: int) -> Genre:
+    def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk: int) -> Response:
